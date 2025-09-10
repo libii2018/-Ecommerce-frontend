@@ -5,15 +5,15 @@ import { useEffect } from "react";
 import { fetchCategories } from "../store/actions";
 import Filter from "./Filter";
 import useProductFilter from "./useProductFilter";
-import { RotatingLines } from "react-loader-spinner";
 import Loader from "./Loader";
+import Paginations from "./Paginations";
 
 const Products = () => {
     const {isLoading, errorMessage} = useSelector(
         (state) => state.errors
     );
     
-    const {products, categories} = useSelector(
+    const {products, categories, pagination} = useSelector(
         (state) => state.products
     );
 
@@ -27,7 +27,7 @@ const Products = () => {
     return (
         <div className="lg:px-14 sm:px-8 px-4 py-14 2xl:w-[90%] 2xl:mx-auto">
             <Filter categories = {categories ? categories : []}/>
-            {true ? (
+            {isLoading ? (
                <Loader />
             ) : errorMessage ? (
                 <div className="flex justify-center items-center h-[200px]">
@@ -42,6 +42,11 @@ const Products = () => {
                         {products &&
                             products.map((item, i) => <ProductCard key={i} {...item} />
                         )}
+                    </div>
+                    <div className="flex justify-center pt-10">
+                        <Paginations 
+                            numberOfPage = {pagination?.totalPages}
+                            totalProducts = {pagination?.totalElements}/>
                     </div>
                 </div>
             )}

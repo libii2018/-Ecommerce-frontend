@@ -38,6 +38,7 @@ const Filter = () => {
             } else {
                 searchParams.delete("keyword");
             }
+            navigate(`${pathname}?${searchParams.toString()}`);
         }, 700);
 
         return () => {
